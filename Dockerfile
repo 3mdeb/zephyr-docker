@@ -16,15 +16,14 @@ RUN apt-get install -y --no-install-recommends \
     xz-utils \
     file \
     make \
-    wget
+    wget \
+    curl
 
 RUN pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/{{ZEPHYR_VER}}/scripts/requirements.txt
 
 RUN wget https://github.com/zephyrproject-rtos/meta-zephyr-sdk/releases/download/{{SDK_VER}}/zephyr-sdk-{{SDK_VER}}-setup.run -O /tmp/zephyr-sdk-{{SDK_VER}}-setup.run && \
     chmod +x /tmp/zephyr-sdk-{{SDK_VER}}-setup.run && \
     /tmp/zephyr-sdk-{{SDK_VER}}-setup.run --target /opt/zephyr-sdk/
-
-RUN apt-get install -y --no-install-recommends curl
 
 RUN curl 'https://www.segger.com/downloads/jlink/JLink_Linux_V622d_x86_64.deb' --data 'accept_license_agreement=accepted&submit=Download+software' --output /tmp/JLink_Linux_V622d_x86_64.deb && \
     dpkg -i /tmp/JLink_Linux_V622d_x86_64.deb
@@ -44,5 +43,5 @@ RUN wget https://www.nordicsemi.com/eng/nordic/download_resource/51505/27/865462
     tar xvf /tmp/nRF5x-Command-Line-Tools_9_7_2_Linux-x86_64.tar -C /home/build
 
 ENV PATH="/home/build/cmake/cmake-3.8.2-Linux-x86_64/bin:/home/build/nrfjprog:/home/build/mergehex:${PATH}"
-ENV ZEPHYR_GCC_VARIANT zephyr
-ENV ZEPHYR_SDK_INSTALL_DIR /opt/zephyr-sdk/
+ENV ZEPHYR_GCC_VARIANT=zephyr
+ENV ZEPHYR_SDK_INSTALL_DIR=/opt/zephyr-sdk/

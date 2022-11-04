@@ -13,6 +13,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-git clone https://github.com/zephyrproject-rtos/zephyr.git
+if [ ! -d "zephyr" ]; then
+  git clone https://github.com/zephyrproject-rtos/zephyr.git
+fi
 
-docker run --rm -t -i --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD/zephyr:/home/build/zephyr 3mdeb/zephyr-docker /bin/bash
+docker run --rm -t -i --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD/zephyr:/home/build/zephyr 3mdeb/zephyr-docker:0.9.2.1 /bin/bash
